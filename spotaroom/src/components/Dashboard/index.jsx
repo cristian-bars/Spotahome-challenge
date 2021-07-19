@@ -23,8 +23,6 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
     dispatch(loadList(roomsUrl));
   }
 
-  console.log(roomInfo);
-
   const propertyType = [
     {
       key: 'Show All',
@@ -111,7 +109,29 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
           <ul>
             {roomInfo.slice(1, 29).map((element) => (
               <>
-                <li>{element.title}</li>
+                <li>
+                  <div className="itemInfo">
+                    <div className="itemImg">
+                      <img src={element.mainPhotoUrl} alt="roomImage" />
+                    </div>
+                    <div className="itemDescription">
+                      <div className="itemTitle">
+                        {element.title}
+                      </div>
+                      <div className="itemSection">
+                        <div className="itemPrice">
+                          {element.pricePerMonth}
+                        </div>
+                        <div className="itemButton">
+                          <a href="/">
+                            <div className="button">Rent</div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </li>
               </>
             ))}
           </ul>
