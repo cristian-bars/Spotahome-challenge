@@ -1,0 +1,35 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navList {
+    display: flex;
+    list-style: none;
+}
+
+.navItem {
+    padding: 0 20px;
+    cursor: pointer;
+    color: #FFD400;
+}
+
+main {
+    display: flex;
+}
+
+.filters {
+    width: 20%;
+    padding: 20px;
+}
+
+.filtersTitle {
+    font-family: 'Luckiest Guy', cursive;
+    color: #333;
+}
+
+.filterPriceTitle, .filterSortTitle {
+    color: #FFD400;
+    padding: 10px 0;
+}
