@@ -3,13 +3,27 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Select from 'react-select';
-import loadRooms from '../../redux/actions/actionCreator';
+import { loadRooms, loadList } from '../../redux/actions/actionCreator';
 import './styles.css';
 
-function Dashboard({ rooms, dispatch }) {
+function Dashboard({ rooms, dispatch, roomInfo }) {
   useEffect(() => {
-    dispatch(loadRooms);
+    dispatch(loadRooms());
   }, []);
+
+  if (rooms.length && roomInfo.length === 0) {
+    let roomsUrl = 'https://www.spotahome.com/api/public/listings/search/homecards_ids?ids[]=';
+    for (let i = 0; i < 30; i += 1) {
+      roomsUrl += rooms[i].id;
+      if (i !== rooms.length - 1) {
+        roomsUrl += '&ids[]=';
+      }
+    }
+
+    dispatch(loadList(roomsUrl));
+  }
+
+  console.log(roomInfo);
 
   const propertyType = [
     {
@@ -95,9 +109,9 @@ function Dashboard({ rooms, dispatch }) {
         </div>
         <div className="contentRooms">
           <ul>
-            {rooms.slice(1, 29).map((element) => (
+            {roomInfo.slice(1, 29).map((element) => (
               <>
-                <li>{element.id}</li>
+                <li>{element.title}</li>
               </>
             ))}
           </ul>
@@ -110,12 +124,14 @@ function Dashboard({ rooms, dispatch }) {
 
 Dashboard.propTypes = {
   rooms: PropTypes.shape([]).isRequired,
+  roomInfo: PropTypes.shape([]).isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(store) {
   return {
-    rooms: store.rooms
+    rooms: store.rooms,
+    roomInfo: store.roomInfo
   };
 }
 

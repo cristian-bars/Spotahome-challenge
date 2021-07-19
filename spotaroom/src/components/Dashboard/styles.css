@@ -19,6 +19,10 @@ main {
     display: flex;
 }
 
+.contentRooms {
+    background-color: #f7f7f7;
+    width: 100%;
+}
 .filters {
     width: 20%;
     padding: 20px;
