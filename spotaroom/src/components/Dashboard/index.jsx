@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Select from 'react-select';
@@ -8,6 +8,7 @@ import logo from '../../assets/logo.jpg';
 import './styles.css';
 
 function Dashboard({ rooms, dispatch, roomInfo }) {
+  const [currentItem, setCurrentProperty] = useState();
   useEffect(() => {
     dispatch(loadRooms());
   }, []);
@@ -28,12 +29,12 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
     {
       key: 'Show All',
       label: 'Show All',
-      value: 'All'
+      value: undefined
     },
     {
       key: 'Apartments',
       label: 'Apartments',
-      value: 'Apartments'
+      value: 'apartment'
     },
     {
       key: 'Rooms',
@@ -43,12 +44,12 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
     {
       key: 'Studios',
       label: 'Studios',
-      value: 'Studios'
+      value: 'studio'
     },
     {
       key: 'Residences',
       label: 'Residences',
-      value: 'Residences'
+      value: 'room_shared'
     }
   ];
   const sort = [
@@ -82,9 +83,9 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
         </div>
         <nav>
           <ul className="navList">
-            <li className="navItem">The company</li>
-            <li className="navItem">How we work</li>
-            <li className="navItem">Contact</li>
+            <li className="navItem" key="company">The company</li>
+            <li className="navItem" key="work">How we work</li>
+            <li className="navItem" key="contact">Contact</li>
           </ul>
         </nav>
       </header>
@@ -97,7 +98,10 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
                 Property type:
               </div>
               <div className="priceFilter">
-                <Select options={propertyType} />
+                <Select
+                  options={propertyType}
+                  onChange={(selectedItem) => setCurrentProperty(selectedItem.value)}
+                />
               </div>
             </div>
             <div className="sortSection">
@@ -105,7 +109,10 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
                 Sort by:
               </div>
               <div className="sortFilter">
-                <Select options={sort} />
+                <Select
+                  options={sort}
+                  // onChange={({ selectedItem }) => setCurrentItem(selectedItem.value)}
+                />
               </div>
             </div>
 
@@ -114,33 +121,69 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
         </div>
         <div className="contentRooms">
           <ul>
-            {roomInfo.slice(1, 29).map((element) => (
-              <>
-                <li>
-                  <div className="itemInfo">
-                    <div className="itemImg">
-                      <img src={element.mainPhotoUrl} alt="roomImage" />
-                    </div>
-                    <div className="itemDescription">
-                      <div className="itemTitle">
-                        {element.title}
-                      </div>
-                      <div className="itemSection">
-                        <div className="itemPrice">
-                          {element.pricePerMonth}
+            {roomInfo.length ? (
+              roomInfo.slice(1, 29).map((element) => (
+                currentItem !== undefined ? (
+                  <>
+                    { element.type === currentItem && (
+                      <li key={element.id}>
+                        <div className="itemInfo">
+                          <div className="itemImg">
+                            <img src={element.mainPhotoUrl} alt="roomImage" />
+                          </div>
+                          <div className="itemDescription">
+                            <div className="itemTitle">
+                              {element.title}
+                            </div>
+                            <div className="itemSection">
+                              <div className="itemPrice">
+                                {element.pricePerMonth}
+                              </div>
+                              <div className="itemButton">
+                                <a href="/">
+                                  <div className="button">Rent</div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="itemButton">
-                          <a href="/">
-                            <div className="button">Rent</div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                </li>
-              </>
-            ))}
+                      </li>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <li key={element.id}>
+                      <div className="itemInfo">
+                        <div className="itemImg">
+                          <img src={element.mainPhotoUrl} alt="roomImage" />
+                        </div>
+                        <div className="itemDescription">
+                          <div className="itemTitle">
+                            {element.title}
+                          </div>
+                          <div className="itemSection">
+                            <div className="itemPrice">
+                              {element.pricePerMonth}
+                            </div>
+                            <div className="itemButton">
+                              <a href="/">
+                                <div className="button">Rent</div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </li>
+                  </>
+                )
+
+              ))
+            ) : (
+              <div>loading</div>
+            )}
+
           </ul>
 
         </div>
