@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Select from 'react-select';
 import { loadRooms, loadList } from '../../redux/actions/actionCreator';
+import logo from '../../assets/logo.jpg';
 import './styles.css';
 
 function Dashboard({ rooms, dispatch, roomInfo }) {
@@ -76,8 +77,8 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
   return (
     <>
       <header>
-        <div className="Logo">
-          <img src="assets/logo.jpg" alt="Logo" />
+        <div className="logo">
+          <img src={logo} alt="Logo" />
         </div>
         <nav>
           <ul className="navList">
@@ -90,20 +91,26 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
       <main>
         <div className="filters">
           <div className="filtersTitle">Filters</div>
-          <div className="filterPriceTitle">
-            Property type:
-          </div>
-          <div className="priceFilter">
-            <Select options={propertyType} />
+          <div className="filtersContent">
+            <div className="propertySection">
+              <div className="filterPriceTitle">
+                Property type:
+              </div>
+              <div className="priceFilter">
+                <Select options={propertyType} />
+              </div>
+            </div>
+            <div className="sortSection">
+              <div className="filterSortTitle">
+                Sort by:
+              </div>
+              <div className="sortFilter">
+                <Select options={sort} />
+              </div>
+            </div>
 
           </div>
-          <div className="filterSortTitle">
-            Sort by:
-          </div>
-          <div className="sortFilter">
-            <Select options={sort} />
 
-          </div>
         </div>
         <div className="contentRooms">
           <ul>
