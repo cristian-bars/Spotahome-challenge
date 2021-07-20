@@ -15,7 +15,7 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
 
   if (rooms.length && roomInfo.length === 0) {
     let roomsUrl = 'https://www.spotahome.com/api/public/listings/search/homecards_ids?ids[]=';
-    for (let i = 0; i < 30; i += 1) {
+    for (let i = 0; i < rooms.length; i += 1) {
       roomsUrl += rooms[i].id;
       if (i !== rooms.length - 1) {
         roomsUrl += '&ids[]=';
@@ -39,7 +39,7 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
     {
       key: 'Rooms',
       label: 'Rooms',
-      value: 'Rooms'
+      value: 'room'
     },
     {
       key: 'Studios',
@@ -181,7 +181,7 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
 
               ))
             ) : (
-              <div>loading</div>
+              <div>loading...</div>
             )}
 
           </ul>
