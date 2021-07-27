@@ -8,14 +8,15 @@ import logo from '../../assets/logo.jpg';
 import './styles.css';
 
 function Dashboard({ rooms, dispatch, roomInfo }) {
-  const [currentItem, setCurrentProperty] = useState();
+  const [currentItem, setCurrentProperty] = useState('Show All');
+
   useEffect(() => {
-    dispatch(loadRooms());
-  }, []);
+    dispatch(loadRooms(currentItem));
+  }, [currentItem]);
 
   if (rooms.length && roomInfo.length === 0) {
     let roomsUrl = 'https://www.spotahome.com/api/public/listings/search/homecards_ids?ids[]=';
-    for (let i = 0; i < rooms.length; i += 1) {
+    for (let i = 0; i < 29; i += 1) {
       roomsUrl += rooms[i].id;
       if (i !== rooms.length - 1) {
         roomsUrl += '&ids[]=';
@@ -29,7 +30,7 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
     {
       key: 'Show All',
       label: 'Show All',
-      value: undefined
+      value: 'Show All'
     },
     {
       key: 'Apartments',
@@ -122,8 +123,8 @@ function Dashboard({ rooms, dispatch, roomInfo }) {
         <div className="contentRooms">
           <ul>
             {roomInfo.length ? (
-              roomInfo.slice(1, 29).map((element) => (
-                currentItem !== undefined ? (
+              roomInfo.map((element) => (
+                currentItem !== 'Show All' ? (
                   <>
                     { element.type === currentItem && (
                       <li key={element.id}>

@@ -1,9 +1,12 @@
 import axios from 'axios';
 import actionTypes from './actionTypes';
 
-const url = 'https://www.spotahome.com/api/public/listings/search/markers/madrid';
+let url = 'https://www.spotahome.com/api/public/listings/search/markers/madrid';
 
-export function loadRooms() {
+export function loadRooms(value) {
+  if (value !== 'Show All') {
+    url = `https://www.spotahome.com/api/public/listings/search/markers/madrid?type[]=${value}`;
+  }
   return async (dispatch) => {
     try {
       const { data } = await axios(url);
